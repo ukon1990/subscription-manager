@@ -31,22 +31,23 @@ export class SubscriptionManager {
       terminateUponEvent?: boolean;
     }): Subscription {
 
-    const s = (emitter as Observable<any>).subscribe((data?: any) => {
+    const subscription = (emitter as Observable<any>)
+        .subscribe((data?: any) => {
       if (options && options.terminateUponEvent) {
-        if (s) {
-          s.unsubscribe();
+        if (subscription) {
+          subscription.unsubscribe();
         }
       }
 
       fun(data);
     });
-    this.list.push(s);
+    this.list.push(subscription);
 
     if (options && options.id) {
-      this.map.set(options.id, s);
+      this.map.set(options.id, subscription);
     }
 
-    return s;
+    return subscription;
   }
 
   public unsubscribe(): void {
