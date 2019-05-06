@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish": "npm publish --access public"
   },
-  "keywords": [],
+  "keywords": ["RxJS", "subscriptions", "observables", "angular subscription", "subscription"],
   "author": "",
   "license": "ISC",
   "repository": {
