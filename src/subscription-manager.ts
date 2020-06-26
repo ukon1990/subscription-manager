@@ -66,4 +66,10 @@ export class SubscriptionManager {
       this.map.delete(id);
     }
   }
+
+
+
+  public getById(id: string) {
+    return this.getMap().get(id);
+  }
 }
