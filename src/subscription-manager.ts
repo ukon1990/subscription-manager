@@ -18,6 +18,30 @@ export class SubscriptionManager {
   }
 
   /**
+   * Adds the subscription to an array of subscriptions, that are unsubscribed upon
+   * the first event. This is a wrapper function over the add function, replacing the need for
+   * the option terminateUponEvent.
+   * There are two optional parameters in the options param.
+   *
+   * @param emitter
+   * @param fun
+   * @param options {
+   *   @param label Adds the subscription to the map variable, so that you can unsubscribe at that spesific event manually
+   * }
+   */
+  addSingleEvent(
+      emitter: Subscribable<any>,
+      fun: Function,
+      options?: {
+        id?: string;
+      }): Subscription {
+    return this.add(emitter, fun, {
+      ...options,
+      terminateUponEvent: true
+    });
+  }
+
+  /**
    * Adds the subscription to an array of subscriptions.
    * There are two optional parameters in the options param.
    *
@@ -35,12 +59,19 @@ export class SubscriptionManager {
       id?: string;
       terminateUponEvent?: boolean;
     }): Subscription {
+    const newIndex = this.list.length;
 
     const subscription = (emitter as Observable<any>)
         .subscribe((data?: any) => {
       if (options && options.terminateUponEvent) {
         if (subscription) {
           subscription.unsubscribe();
+
+          if (options.id) {
+            this.unsubscribeById(options.id);
+          } else {
+            this.list.splice(newIndex, 1);
+          }
         }
       }
 
@@ -65,6 +96,7 @@ export class SubscriptionManager {
       }
     });
     this.list.length = 0;
+    this.map = new Map<string, MappedSubscription>();
   }
 
   public unsubscribeById(id: string) {
