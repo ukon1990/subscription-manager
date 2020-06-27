@@ -6,11 +6,11 @@
     "declaration": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
+    "module": "ES2020",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es5",
+    "target": "ES2015",
     "typeRoots": [
       "node_modules/@types"
     ],
