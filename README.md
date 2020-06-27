@@ -1,10 +1,11 @@
-# RXjs Subscription manager
-This does hopefully make subscription management less tedious, and helps clean up your code with less variables.
+# RXJS Subscription manager
+This does hopefully make subscription management less tedious, and helps clean up your code with fewer variables and 
+fewer lines of repeated code.
 
 You can install it like this:``npm i --save @ukon1990/subscription-manager``
 
-Originally this code base were written before I found out about the 
-basic ``subscription.add()``, but then you need to write more code manually. But i still find this method preferable, 
+Originally this code base was written before I found out about the 
+basic ``subscription.add()``, but then you need to write more code manually. I still find this method preferable, 
 for my use-cases.
 
 So when using this package, you do (in Angular):
@@ -28,14 +29,12 @@ form: FormGroup;
       surname: new FormControl(),
       age: new FormControl()
     });
-
-    this.subs.add(
+    // Unsubscribe upon the first event. 
+  // but also makes sure that it is being unsubscribed as usual if no event is triggered
+    this.subs.addSingleEvent(
       this.form.controls.firstName.valueChanges,
-      (change) => this.onNameChange(change), {
-          // Unsubscribe upon the first event. 
-          // but also makes sure that it is being unsubscribed as usual if no event is triggered
-       terminateUponEvent: true
-     });
+      (change) => this.onNameChange(change));
+
     this.subs.add(
       this.form.controls.surname.valueChanges,
       (change) => this.onNameChange(change), {
@@ -102,11 +101,11 @@ export class ExampleFormDefaultComponent implements OnDestroy {
 Now the difference here, is that you have to store the subscriptions etc into a variable in order to individually unsubscribe.
 With the subscription manager, you can set an id in the options and use unsubscribeById('surname').
 
-There is also not less repeatable code hopefully.
+The SubscriptionManager should hopefully reduce unnecessary repeated code, for these kinds of things.
 You don't need to do valueChanges.subscribe, and you don't need to add a pipe and takeWhile/Until and all that, if you
- just want the subscription to terminate upon the first event.
+ just want the subscription to terminate upon the first event. You can just use the addSingleEvent function instead of the add function.
 
 
-You can also get subscription manager to return the list or map of the subscriptions with ``.getMap()`` or ``.getList()``.
+You can also get subscription manager to return the list or map of the subscriptions with ``.getMap()``(only those whom have an ID) or ``.getList()``.
 
 If you want, you can also do add the ``.pipe(takeWhile(...logic...))`` if you want.
