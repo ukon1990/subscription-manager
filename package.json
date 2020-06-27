@@ -1,13 +1,14 @@
 {
   "name": "@ukon1990/subscription-manager",
   "version": "1.0.2",
-  "description": "",
+  "description": "This does hopefully make subscription management less tedious, and helps clean up your code with less variables.",
   "main": "dist/index.js",
+  "module": "dist/main.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "publish": "npm publish --access public"
+    "test": "jest",
+    "publish": "tsc & npm publish --access public"
   },
   "keywords": [
     "RxJS",
@@ -16,13 +17,14 @@
     "angular subscription",
     "subscription"
   ],
-  "author": "",
+  "author": "Jonas M Flønes",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ukon1990/subscription-manager"
+    "url": "git+https://github.com/ukon1990/subscription-manager.git"
   },
   "dependencies": {
+    "esm": "^3.2.25",
     "rxjs": "^6.5.5"
   },
   "devDependencies": {
@@ -34,5 +36,9 @@
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "typescript": "^3.9.5"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/ukon1990/subscription-manager/issues"
+  },
+  "homepage": "https://github.com/ukon1990/subscription-manager#readme"
 }
