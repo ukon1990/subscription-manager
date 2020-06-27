@@ -11,7 +11,7 @@ So when using this package, you do (in Angular):
 ```typescript
 import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {SubscriptionManager} from '@ukon1990/subscription-manager/dist/subscription-manager';
+import {SubscriptionManager} from '@ukon1990/subscription-manager';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
