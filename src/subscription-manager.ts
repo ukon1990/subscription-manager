@@ -1,14 +1,19 @@
 import {Observable, Subscribable, Subscription} from 'rxjs';
 
+class MappedSubscription {
+  index: number;
+  subscription: Subscription;
+}
+
 export class SubscriptionManager {
   private list: Subscription[] = [];
-  private map: Map<string, Subscription> = new Map<string, Subscription>();
+  private map: Map<string, MappedSubscription> = new Map<string, MappedSubscription>();
 
   public getList(): Subscription[] {
     return this.list;
   }
 
-  public getMap(): Map<string, Subscription> {
+  public getMap(): Map<string, MappedSubscription> {
     return this.map;
   }
 
@@ -44,7 +49,10 @@ export class SubscriptionManager {
     this.list.push(subscription);
 
     if (options && options.id) {
-      this.map.set(options.id, subscription);
+      this.map.set(options.id, {
+        subscription,
+        index: this.list.length - 1,
+      });
     }
 
     return subscription;
@@ -62,14 +70,19 @@ export class SubscriptionManager {
   public unsubscribeById(id: string) {
     const subscription = this.map.get(id);
     if (subscription) {
-      subscription.unsubscribe();
+      subscription.subscription.unsubscribe();
       this.map.delete(id);
+      this.list.splice(subscription.index, 1);
     }
   }
 
 
 
-  public getById(id: string) {
-    return this.getMap().get(id);
+  public getById(id: string): Subscription {
+    const sub: MappedSubscription = this.getMap().get(id);
+    if (sub) {
+      return sub.subscription;
+    }
+    return undefined;
   }
 }
